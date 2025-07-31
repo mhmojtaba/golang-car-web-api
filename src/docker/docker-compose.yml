@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin_postgres_web_api_1.0
+      POSTGRES_DB: car_web_api_db
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - web_api_network
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    environment:
+      PGADMIN_DEFAULT_EMAIL: mhmojtaba@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "8080:80"
+    networks:
+      - web_api_network
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    command: ["redis-server", "/etc/redis/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/redis.conf:/etc/redis/redis.conf
+      - redis:/etc/redis.conf
+      - redis:/data
+    networks:
+      - web_api_network
+    restart: always
+
+volumes:
+  postgres:
+  pgadmin:
+  redis:
+  logs:
+
+networks:
+  web_api_network:
+    driver: bridge
