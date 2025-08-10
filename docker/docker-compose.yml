@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin_postgres_web_api_1.0
-      POSTGRES_DB: car_web_api_db
+      POSTGRES_dB: car_web_api_db
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
@@ -42,7 +42,6 @@ services:
     volumes:
       - ./redis/redis.conf:/etc/redis/redis.conf
       - redis:/etc/redis.conf
-      - redis:/data
     networks:
       - web_api_network
     restart: always

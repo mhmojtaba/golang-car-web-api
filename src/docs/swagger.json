@@ -1,0 +1,160 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/v1/health/": {
+            "get": {
+                "description": "Health handler function",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Health handler",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/test/body": {
+            "post": {
+                "description": "BodyBinder handler function",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Body"
+                ],
+                "summary": "BodyBinder handler",
+                "parameters": [
+                    {
+                        "description": "PersonData",
+                        "name": "person",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.Persons"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "failed",
+                        "schema": {
+                            "$ref": "#/definitions/helper.BaseHttpResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handlers.Persons": {
+            "type": "object",
+            "required": [
+                "family",
+                "gender",
+                "mobile",
+                "name"
+            ],
+            "properties": {
+                "age": {
+                    "type": "integer",
+                    "maximum": 120,
+                    "minimum": 0
+                },
+                "family": {
+                    "type": "string",
+                    "maxLength": 15,
+                    "minLength": 3
+                },
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "male",
+                        "female"
+                    ]
+                },
+                "mobile": {
+                    "type": "string",
+                    "maxLength": 11,
+                    "minLength": 11
+                },
+                "name": {
+                    "type": "string",
+                    "maxLength": 10,
+                    "minLength": 2
+                }
+            }
+        },
+        "helper.BaseHttpResponse": {
+            "type": "object",
+            "properties": {
+                "Error": {},
+                "result": {},
+                "resultCode": {
+                    "type": "integer"
+                },
+                "success": {
+                    "type": "boolean"
+                },
+                "validationErrors": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/validation.ValidationError"
+                    }
+                }
+            }
+        },
+        "validation.ValidationError": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "propertyName": {
+                    "type": "string"
+                },
+                "tag": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "AuthBearer": {
+            "type": "apiKey",
+            "name": "authorization",
+            "in": "header"
+        }
+    }
+}

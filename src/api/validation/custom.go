@@ -1,10 +1,36 @@
 package validation
 
 import (
+	"errors"
 	"regexp"
 
 	"github.com/go-playground/validator/v10"
 )
+
+type ValidationError struct {
+	Property string `json:"propertyName"`
+	Tag      string `json:"tag"`
+	Value    string `json:"value"`
+	Message  string `json:"message"`
+}
+
+func GetValidationErrors(err error) *[]ValidationError {
+	var validationErrors []ValidationError
+	var ve validator.ValidationErrors
+
+	if errors.As(err, &ve) {
+		for _, e := range err.(validator.ValidationErrors) {
+			var el ValidationError
+			el.Property = e.Field()
+			el.Tag = e.Tag()
+			el.Value = e.Param()
+
+			validationErrors = append(validationErrors, el)
+		}
+		return &validationErrors
+	}
+	return nil
+}
 
 // mobile regex for validation
 const mobileRegex = `^09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}$`

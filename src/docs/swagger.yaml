@@ -1,0 +1,108 @@
+definitions:
+  handlers.Persons:
+    properties:
+      age:
+        maximum: 120
+        minimum: 0
+        type: integer
+      family:
+        maxLength: 15
+        minLength: 3
+        type: string
+      gender:
+        enum:
+        - male
+        - female
+        type: string
+      mobile:
+        maxLength: 11
+        minLength: 11
+        type: string
+      name:
+        maxLength: 10
+        minLength: 2
+        type: string
+    required:
+    - family
+    - gender
+    - mobile
+    - name
+    type: object
+  helper.BaseHttpResponse:
+    properties:
+      Error: {}
+      result: {}
+      resultCode:
+        type: integer
+      success:
+        type: boolean
+      validationErrors:
+        items:
+          $ref: '#/definitions/validation.ValidationError'
+        type: array
+    type: object
+  validation.ValidationError:
+    properties:
+      message:
+        type: string
+      propertyName:
+        type: string
+      tag:
+        type: string
+      value:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/health/:
+    get:
+      consumes:
+      - application/json
+      description: Health handler function
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: Health handler
+      tags:
+      - Health
+  /v1/test/body:
+    post:
+      consumes:
+      - application/json
+      description: BodyBinder handler function
+      parameters:
+      - description: PersonData
+        in: body
+        name: person
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.Persons'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: BodyBinder handler
+      tags:
+      - Body
+securityDefinitions:
+  AuthBearer:
+    in: header
+    name: authorization
+    type: apiKey
+swagger: "2.0"
