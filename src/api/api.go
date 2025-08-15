@@ -22,6 +22,7 @@ func InitServer(cfg *config.Config) {
 	// set validators for tags
 	RegisterValidators()
 	// set middlewares
+	r.Use(middlewares.DefaultStructuredLogger(cfg))
 	r.Use(gin.Logger(), gin.Recovery(), middlewares.NewTestMiddleware(), middlewares.Limiter())
 
 	RegisterRouter(r)
