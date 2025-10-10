@@ -2,6 +2,6 @@ package models
 
 type Role struct {
 	BaseModel
-	Name string `gorm:"type:string;size:10;not null;unique"`
+	Name     string `gorm:"type:string;size:10;not null;unique"`
 	UserRole *[]UserRole
-} 
+}
