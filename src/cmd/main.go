@@ -5,6 +5,7 @@ import (
 	"github.com/mhmojtaba/golang-car-web-api/config"
 	"github.com/mhmojtaba/golang-car-web-api/data/cache"
 	"github.com/mhmojtaba/golang-car-web-api/data/db"
+	"github.com/mhmojtaba/golang-car-web-api/data/migration"
 	"github.com/mhmojtaba/golang-car-web-api/pkg/logging"
 )
 
@@ -27,6 +28,8 @@ func main() {
 	if err != nil {
 		logger.Fatal(logging.Postgres, logging.Startup, err.Error(), nil)
 	}
+
+	migration.Up_1()
 
 	api.InitServer(cfg)
 }
