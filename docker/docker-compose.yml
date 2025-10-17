@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -6,8 +6,8 @@ services:
     container_name: postgres_container
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin_postgres_web_api_1.0
-      POSTGRES_dB: car_web_api_db
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: car_sale_db
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
@@ -22,7 +22,7 @@ services:
     container_name: pgadmin_container
     environment:
       PGADMIN_DEFAULT_EMAIL: mhmojtaba@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: adminpassword
+      PGADMIN_DEFAULT_PASSWORD: 1234
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:

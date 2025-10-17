@@ -15,18 +15,27 @@ var dbClient *gorm.DB
 
 func InitDb(cfg *config.Config) error {
 	var err error
-	// create connection string
-	dsn := fmt.Sprintf("host=%s port=%s User=%s	Password=%s	DbName=%s SSLMode=%s TimeZone=Asia/Tehran", cfg.Postgres.Host, cfg.Server.Port, cfg.Postgres.User, cfg.Postgres.Password, cfg.Postgres.DbName, cfg.Postgres.SSLMode)
+	// create connection string (use postgres port from Postgres config)
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s TimeZone=Asia/Tehran",
+		cfg.Postgres.Host,
+		cfg.Postgres.Port,
+		cfg.Postgres.User,
+		cfg.Postgres.Password,
+		cfg.Postgres.DbName,
+		cfg.Postgres.SSLMode,
+	)
 
 	dbClient, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return err
 	}
 
-	sqlDB, _ := dbClient.DB()
-
-	err = sqlDB.Ping()
+	sqlDB, err := dbClient.DB()
 	if err != nil {
+		return err
+	}
+
+	if err := sqlDB.Ping(); err != nil {
 		return err
 	}
 
