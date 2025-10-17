@@ -1,8 +1,13 @@
 package common
 
 import (
+	"math"
 	"math/rand"
+	"regexp"
+	"strconv"
 	"strings"
+	"time"
+	"unicode"
 
 	"github.com/mhmojtaba/golang-car-web-api/config"
 )
@@ -14,6 +19,9 @@ var (
 	numberSet      = "0123456789"
 	allCharSet     = lowerCharSet + upperCharSet + specialCharSet + numberSet
 )
+
+var matchFirstCap = regexp.MustCompile("(.)([A-Z][a-z]+)")
+var matchAllCap = regexp.MustCompile("([a-z0-9])([A-Z])")
 
 func GeneratePassword() string {
 	var password strings.Builder
@@ -70,4 +78,58 @@ func GeneratePassword() string {
 		inRune[i], inRune[j] = inRune[j], inRune[i]
 	})
 	return string(inRune)
+}
+
+func GenerateOtp() string {
+	cfg := config.GetConfig()
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	min := int(math.Pow(10, float64(cfg.Otp.Digits-1)))   // 1000 for 4 digits
+	max := int(math.Pow(10, float64(cfg.Otp.Digits)) - 1) // 10000-1 for 4 digits
+
+	otp := r.Intn(max-min) + min
+	return strconv.Itoa(otp)
+}
+
+func HasUpper(s string) bool {
+	for _, c := range s {
+		if unicode.IsUpper(c) && unicode.IsLetter(c) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasLower(s string) bool {
+	for _, c := range s {
+		if unicode.IsLower(c) && unicode.IsLetter(c) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasLetter(s string) bool {
+	for _, r := range s {
+		if unicode.IsLetter(r) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasDigits(s string) bool {
+	for _, r := range s {
+		if unicode.IsDigit(r) {
+			return true
+		}
+	}
+	return false
+}
+
+// To snake case : CountryId -> country_id
+func ToSnakeCase(str string) string {
+	snake := matchFirstCap.ReplaceAllString(str, "${1}_${2}")
+	snake = matchAllCap.ReplaceAllString(snake, "${1}_${2}")
+	return strings.ToLower(snake)
 }
