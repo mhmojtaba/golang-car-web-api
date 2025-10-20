@@ -1,4 +1,13 @@
 definitions:
+  dto.GetOtpRequest:
+    properties:
+      mobile_number:
+        maxLength: 11
+        minLength: 11
+        type: string
+    required:
+    - mobile_number
+    type: object
   handlers.Persons:
     properties:
       age:
@@ -100,6 +109,36 @@ paths:
       summary: BodyBinder handler
       tags:
       - Body
+  /v1/users/send-otp/:
+    post:
+      consumes:
+      - application/json
+      description: Send OTP function
+      parameters:
+      - description: Send OTP Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetOtpRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "400":
+          description: failed
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+        "409":
+          description: conflict
+          schema:
+            $ref: '#/definitions/helper.BaseHttpResponse'
+      summary: Send OTP
+      tags:
+      - users
 securityDefinitions:
   AuthBearer:
     in: header

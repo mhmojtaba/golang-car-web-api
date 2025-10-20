@@ -34,7 +34,7 @@ func NewOtpService(cfg *config.Config) *OtpService {
 }
 
 func (s *OtpService) SetOtp(mobileNumber string, otp string) error {
-	key := fmt.Sprintf("%S:%S", constants.RedisOtpDefaultKey, mobileNumber)
+	key := fmt.Sprintf("%s:%s", constants.RedisOtpDefaultKey, mobileNumber)
 	val := &OptDto{
 		Otp:  otp,
 		Used: false,
