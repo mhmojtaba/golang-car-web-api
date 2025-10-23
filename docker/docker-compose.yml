@@ -12,7 +12,7 @@ services:
     volumes:
       - postgres:/data/postgres
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - web_api_network
     restart: unless-stopped
@@ -26,7 +26,7 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - "8080:80"
+      - "8090:80"
     networks:
       - web_api_network
     restart: unless-stopped
@@ -38,7 +38,7 @@ services:
     container_name: redis_container
     command: ["redis-server", "/etc/redis/redis.conf"]
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - ./redis/redis.conf:/etc/redis/redis.conf
       - redis:/etc/redis.conf
