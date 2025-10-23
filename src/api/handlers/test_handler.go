@@ -28,7 +28,7 @@ func NewTestHandler() *TestHandler {
 func (t *TestHandler) TestHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "test",
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 func (t *TestHandler) UserById(c *gin.Context) {
@@ -37,7 +37,7 @@ func (t *TestHandler) UserById(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "test",
 		"id":      id,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 // read from header
@@ -47,7 +47,7 @@ func (t *TestHandler) HeaderBinderMethod1(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "HeaderBinderMethod1",
 		"api_key": api_key,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 func (t *TestHandler) HeaderBinderMethod2(c *gin.Context) {
@@ -56,7 +56,7 @@ func (t *TestHandler) HeaderBinderMethod2(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "HeaderBinderMethod2",
 		"api_key": api_key,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 func (t *TestHandler) HeaderBinderMethod3(c *gin.Context) {
@@ -66,7 +66,7 @@ func (t *TestHandler) HeaderBinderMethod3(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "HeaderBinderMethod3",
 		"header":  header,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 func (t *TestHandler) HeaderBinderMethod4(c *gin.Context) {
@@ -76,7 +76,7 @@ func (t *TestHandler) HeaderBinderMethod4(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "HeaderBinderMethod4",
 		"header":  header,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 // read from query
@@ -88,7 +88,7 @@ func (t *TestHandler) ReadQuery(c *gin.Context) {
 		"message": "ReadQuery",
 		"name":    name,
 		"ids":     ids,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 // read from root uri
@@ -100,7 +100,7 @@ func (t *TestHandler) UriBinder(c *gin.Context) {
 		"message": "RootUri",
 		"code":    code,
 		"id":      id,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 // read from body
@@ -122,13 +122,13 @@ func (t *TestHandler) BodyBinder(c *gin.Context) {
 	err := c.ShouldBindJSON(&person) // if err returns error and should handle it
 
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		c.AbortWithStatusJSON(http.StatusInternalServerError, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err, ""))
 		return
 	}
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "RootUri",
 		"person":  person,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 // read from form
@@ -140,7 +140,7 @@ func (t *TestHandler) FormBinder(c *gin.Context) {
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "RootUri",
 		"person":  person,
-	}, true, 0))
+	}, true, 0, ""))
 }
 
 // read from file
@@ -148,12 +148,12 @@ func (t *TestHandler) FileBinder(c *gin.Context) {
 	file, _ := c.FormFile("file")
 	err := c.SaveUploadedFile(file, "file")
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusInternalServerError, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		c.AbortWithStatusJSON(http.StatusInternalServerError, helper.GenerateBaseResponseWithValidationError(nil, false, -1, err, ""))
 		return
 	}
 
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(gin.H{
 		"message": "FileBinder",
 		"person":  file.Filename,
-	}, true, 0))
+	}, true, 0, ""))
 }

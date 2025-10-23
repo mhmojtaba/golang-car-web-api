@@ -39,18 +39,19 @@ func (u *UsersHandler) SendOtp(c *gin.Context) {
 	if err != nil {
 		c.AbortWithStatusJSON(
 			http.StatusBadRequest,
-			helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err),
+			helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"),
 		)
 		return
 	}
 	err = u.service.SendOtp(req)
 	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err))
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithValidationError(nil, false, -1, err, err.Error()))
+
 		return
 	}
 	// call sms service to send otp
 	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(&dto.SendOtpResponse{
 		Message: "OTP has been sent successfully",
-	}, true, 0))
+	}, true, 0, "OTP has been sent successfully"))
 
 }
