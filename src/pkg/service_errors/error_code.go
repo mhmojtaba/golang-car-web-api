@@ -8,4 +8,7 @@ const (
 	UsernameExists   = "username is already exists"
 	RecordNotFound   = "user is not found"
 	PermissionDenied = "permission is denied"
+
+	UnExpectedError = "unexpected error occurred"
+	ClaimsNotFound  = "claims not found in token"
 )

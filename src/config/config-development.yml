@@ -10,7 +10,7 @@ cors:
   allowOrigins: "*"
 postgres:
   host: localhost
-  port: 5432
+  port: 5433
   user: postgres
   password: admin
   dbName: car_sale_db
@@ -20,7 +20,7 @@ postgres:
   connMaxLifetime: 5
 redis:
   host: localhost
-  port: 6379
+  port: 6380
   password: password
   db: 0
   dialTimeout: 5
@@ -36,7 +36,12 @@ password:
   maxLength: 64
   includeUppercase: true
   includeLowercase: true
-Otp:
+otp:
   expireTime: 120
   digits: 4
   limiter: 100
+jwt:
+  secretKey: mySecretKey
+  refreshSecretKey: myRefreshSecretKey
+  accessTokenExpireDuration: 15
+  refreshTokenExpireDuration: 43200
