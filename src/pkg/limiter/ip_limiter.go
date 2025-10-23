@@ -31,13 +31,12 @@ func (i *IPLimiter) AddIp(ip string) *rate.Limiter {
 }
 
 func (i *IPLimiter) GetLimiter(ip string) *rate.Limiter {
-	i.mu.Lock()
+	i.mu.RLock()
 	limiter, exists := i.ips[ip]
-
+	i.mu.RUnlock()
 	if !exists {
-		i.mu.RUnlock()
 		return i.AddIp(ip)
 	}
-	i.mu.Unlock()
+
 	return limiter
 }
