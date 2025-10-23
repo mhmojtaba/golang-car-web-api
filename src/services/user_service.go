@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/mhmojtaba/golang-car-web-api/api/dto"
 	"github.com/mhmojtaba/golang-car-web-api/common"
 	"github.com/mhmojtaba/golang-car-web-api/config"
@@ -36,6 +38,9 @@ func (u *UserService) SendOtp(req *dto.GetOtpRequest) error {
 		return err
 	}
 	// Send OTP (e.g., via SMS) - Placeholder for actual sending logic
-	u.logger.Infof("otp %s - has been sent to %s", otp, req.MobileNumber)
+
+	// u.logger.Infof("otp %s - has been sent to %s", otp, req.MobileNumber)
+	fmt.Printf("otp %s - has been sent to %s\n", otp, req.MobileNumber)
+
 	return nil
 }
