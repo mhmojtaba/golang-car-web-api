@@ -23,7 +23,7 @@ func InitServer(cfg *config.Config) {
 	RegisterValidators()
 	// set middlewares
 	r.Use(middlewares.DefaultStructuredLogger(cfg))
-	r.Use(gin.Logger(), gin.Recovery() /* middlewares.NewTestMiddleware(),*/, middlewares.Limiter())
+	r.Use(gin.Logger(), gin.CustomRecovery(middlewares.ErrorHandler) /* middlewares.NewTestMiddleware(),*/, middlewares.Limiter())
 
 	RegisterRouter(r, cfg)
 	RegisterSwagger(r, cfg)
