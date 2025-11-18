@@ -6,6 +6,7 @@ import (
 	"github.com/golang-jwt/jwt"
 	"github.com/mhmojtaba/golang-car-web-api/api/dto"
 	"github.com/mhmojtaba/golang-car-web-api/config"
+	"github.com/mhmojtaba/golang-car-web-api/constants"
 	"github.com/mhmojtaba/golang-car-web-api/pkg/logging"
 	"github.com/mhmojtaba/golang-car-web-api/pkg/service_errors"
 )
@@ -39,13 +40,13 @@ func (t *TokenService) GenerateToken(token *TokenDto) (*dto.TokenDetails, error)
 	tokenDetail.RefreshTokenExpireTime = time.Now().Add(t.cfg.Jwt.RefreshTokenExpireDuration * time.Minute).Unix()
 
 	accessTokenClaims := jwt.MapClaims{}
-	accessTokenClaims["user_id"] = token.UserId
-	accessTokenClaims["first_name"] = token.FirstName
-	accessTokenClaims["last_name"] = token.LastName
-	accessTokenClaims["mobile_number"] = token.MobileNumber
-	accessTokenClaims["email"] = token.Email
-	accessTokenClaims["roles"] = token.Roles
-	accessTokenClaims["exp"] = tokenDetail.AccessTokenExpireTime
+	accessTokenClaims[constants.UserIdKey] = token.UserId
+	accessTokenClaims[constants.FirstNameKey] = token.FirstName
+	accessTokenClaims[constants.LastNameKey] = token.LastName
+	accessTokenClaims[constants.MobileNumberKey] = token.MobileNumber
+	accessTokenClaims[constants.EmailKey] = token.Email
+	accessTokenClaims[constants.RolesKey] = token.Roles
+	accessTokenClaims[constants.ExpireTimeKey] = tokenDetail.AccessTokenExpireTime
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
 
@@ -56,8 +57,8 @@ func (t *TokenService) GenerateToken(token *TokenDto) (*dto.TokenDetails, error)
 	}
 
 	refreshTokenClaims := jwt.MapClaims{}
-	refreshTokenClaims["user_id"] = token.UserId
-	refreshTokenClaims["exp"] = tokenDetail.RefreshTokenExpireTime
+	refreshTokenClaims[constants.UserIdKey] = token.UserId
+	refreshTokenClaims[constants.ExpireTimeKey] = tokenDetail.RefreshTokenExpireTime
 
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshTokenClaims)
 

@@ -11,4 +11,8 @@ const (
 
 	UnExpectedError = "unexpected error occurred"
 	ClaimsNotFound  = "claims not found in token"
+
+	TokenRequired = "token is required"
+	InvalidToken  = "invalid token"
+	TokenExpired  = "token is expired"
 )
