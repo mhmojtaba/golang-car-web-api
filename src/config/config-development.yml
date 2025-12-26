@@ -43,5 +43,5 @@ otp:
 jwt:
   secretKey: mySecretKey
   refreshSecretKey: myRefreshSecretKey
-  accessTokenExpireDuration: 15
+  accessTokenExpireDuration: 1440
   refreshTokenExpireDuration: 43200
