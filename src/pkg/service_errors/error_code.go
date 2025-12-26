@@ -15,4 +15,5 @@ const (
 	TokenRequired = "token is required"
 	InvalidToken  = "invalid token"
 	TokenExpired  = "token is expired"
+	Forbidden     = "forbidden access"
 )
