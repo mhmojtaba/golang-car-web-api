@@ -23,7 +23,7 @@ func InitServer(cfg *config.Config) {
 	RegisterValidators()
 	// set middlewares
 	r.Use(middlewares.DefaultStructuredLogger(cfg))
-	r.Use(gin.Logger(), gin.CustomRecovery(middlewares.ErrorHandler) /* middlewares.NewTestMiddleware(),*/, middlewares.Limiter())
+	r.Use(gin.Logger(), gin.CustomRecovery(middlewares.ErrorHandler) /* middlewares.NewTestMiddleware(),, middlewares.Limiter()*/)
 
 	RegisterRouter(r, cfg)
 	RegisterSwagger(r, cfg)
@@ -39,8 +39,10 @@ func RegisterRouter(r *gin.Engine, cfg *config.Config) {
 		health := v1.Group("/health")
 		test := v1.Group("/test")
 		users := v1.Group("/users")
+		countries := v1.Group("/countries", middlewares.Authentication(cfg), middlewares.Authorization([]string{"Admin"}))
 
 		routers.User(users, cfg)
+		routers.Country(countries, cfg)
 
 		routers.TestRouter(test)
 		routers.Health(health)
