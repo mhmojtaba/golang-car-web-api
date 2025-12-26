@@ -6,7 +6,7 @@ const (
 	InvalidOtp       = "Invalid Otp"
 	EmailExists      = "email is already exists"
 	UsernameExists   = "username is already exists"
-	RecordNotFound   = "user is not found"
+	UserNotFound     = "user is not found"
 	PermissionDenied = "permission is denied"
 
 	UnExpectedError = "unexpected error occurred"
@@ -16,4 +16,7 @@ const (
 	InvalidToken  = "invalid token"
 	TokenExpired  = "token is expired"
 	Forbidden     = "forbidden access"
+
+	// DB
+	RecordNotFound = "record not found"
 )
