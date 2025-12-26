@@ -9,10 +9,10 @@ import (
 
 func ErrorHandler(c *gin.Context, err any) {
 	if err, ok := err.(error); ok {
-		httpResponse := helper.GenerateBaseResponseWithError(nil, false, helper.CustomRecovery, err)
+		httpResponse := helper.GenerateBaseResponseWithError(nil, false, int(helper.CustomRecovery), err, err.Error())
 		c.AbortWithStatusJSON(http.StatusInternalServerError, httpResponse)
 		return
 	}
-	httpResponse := helper.GenerateBaseResponseWithAnyError(nil, false, helper.CustomRecovery, err)
+	httpResponse := helper.GenerateBaseResponseWithError(nil, false, int(helper.CustomRecovery), nil, "Internal Server Error")
 	c.AbortWithStatusJSON(http.StatusInternalServerError, httpResponse)
 }
