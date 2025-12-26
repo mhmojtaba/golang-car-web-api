@@ -9,8 +9,8 @@ import (
 func Country(r *gin.RouterGroup, cfg *config.Config) {
 	handler := handlers.NewCountryHandler(cfg)
 
-	r.POST("/create/", handler.CreateCountry)
-	r.PUT("/update/:countryId", handler.UpdateCountry)
-	r.DELETE("/delete/:countryId", handler.DeleteCountry)
-	r.GET("/get/:countryId", handler.GetCountry)
+	r.POST("/", handler.CreateCountry)
+	r.PUT("/:countryId", handler.UpdateCountry)
+	r.DELETE("/:countryId", handler.DeleteCountry)
+	r.GET("/:countryId", handler.GetCountry)
 }
