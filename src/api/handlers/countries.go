@@ -134,7 +134,7 @@ func (h *CountryHandler) GetCountry(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, http.StatusOK, "Country deleted successfully"))
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, http.StatusOK, "successfully"))
 }
 
 // getCountriesByFilter godoc
