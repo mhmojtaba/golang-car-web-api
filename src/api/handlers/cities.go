@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
+	_ "github.com/mhmojtaba/golang-car-web-api/api/dto"
+	_ "github.com/mhmojtaba/golang-car-web-api/api/helper"
 	"github.com/mhmojtaba/golang-car-web-api/config"
 	"github.com/mhmojtaba/golang-car-web-api/services"
 )
