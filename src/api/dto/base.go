@@ -95,21 +95,21 @@ type ColorResponse struct {
 	HexCode string `json:"hexCode,omitempty"`
 }
 
-type CreatePersianYearRequest struct {
+type CreateYearRequest struct {
 	PersianTitle string    `json:"persianTitle" binding:"min=4,max=4"`
 	Year         int       `json:"year"`
 	StartAt      time.Time `json:"startAt"`
 	EndAt        time.Time `json:"endAt"`
 }
 
-type UpdatePersianYearRequest struct {
+type UpdateYearRequest struct {
 	PersianTitle string    `json:"persianTitle,omitempty" binding:"min=4,max=4"`
 	Year         int       `json:"year,omitempty"`
 	StartAt      time.Time `json:"startAt,omitempty"`
 	EndAt        time.Time `json:"endAt,omitempty"`
 }
 
-type PersianYearResponse struct {
+type YearResponse struct {
 	Id           int       `json:"id"`
 	PersianTitle string    `json:"persianTitle,omitempty"`
 	Year         int       `json:"year,omitempty"`
@@ -117,7 +117,7 @@ type PersianYearResponse struct {
 	EndAt        time.Time `json:"endAt,omitempty"`
 }
 
-type PersianYearWithoutDateResponse struct {
+type YearWithoutDateResponse struct {
 	Id           int    `json:"id"`
 	PersianTitle string `json:"persianTitle,omitempty"`
 	Year         int    `json:"year,omitempty"`
