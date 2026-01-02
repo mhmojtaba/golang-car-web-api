@@ -140,6 +140,11 @@ func (s *CountryService) GetCountryById(ctx context.Context, countryId uint) (*d
 	return result, nil
 }
 
+// get by filter with pagination
+func (s *CountryService) GetCountriesByFilter(ctx context.Context, req *dto.PaginationResultWithFilter) (*dto.Pagination[dto.CountryResponse], error) {
+	return s.base.GetByFilter(ctx, req)
+}
+
 // get all
 
 // func (s *CountryService) GetAllCountries(ctx context.Context) ([]*dto.CountryResponse, error) {

@@ -57,7 +57,7 @@ func (h *CountryHandler) CreateCountry(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "id"
-// @Success 201 {object} helper.BaseHttpResponse{result: dto.CountryResponse} "country response"
+// @Success 200 {object} helper.BaseHttpResponse{result: dto.CountryResponse} "country response"
 // @Failure 400 {object} helper.BaseHttpResponse "failed"
 // @Failure 409 {object} helper.BaseHttpResponse "conflict"
 // @Router /v1/countries/ [put]
@@ -86,7 +86,7 @@ func (h *CountryHandler) UpdateCountry(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "id"
-// @Success 201 {object} helper.BaseHttpResponse "response"
+// @Success 200 {object} helper.BaseHttpResponse "response"
 // @Failure 400 {object} helper.BaseHttpResponse "failed"
 // @Failure 409 {object} helper.BaseHttpResponse "conflict"
 // @Router /v1/countries/{id} [delete]
@@ -115,7 +115,7 @@ func (h *CountryHandler) DeleteCountry(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path int true "id"
-// @Success 201 {object} helper.BaseHttpResponse{result: dto.CountryResponse} "country response"
+// @Success 200 {object} helper.BaseHttpResponse{result: dto.CountryResponse} "country response"
 // @Failure 400 {object} helper.BaseHttpResponse "failed"
 // @Failure 409 {object} helper.BaseHttpResponse "conflict"
 // @Router /v1/countries/{id} [get]
@@ -135,4 +135,32 @@ func (h *CountryHandler) GetCountry(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, http.StatusOK, "Country deleted successfully"))
+}
+
+// getCountriesByFilter godoc
+// @Summary Get Countries By Filter
+// @Description Get countries by filter
+// @Tags countries
+// @Accept json
+// @Produce json
+// @Param request body dto.PaginationResultWithFilter true "request"
+// @Success 201 {object} helper.BaseHttpResponse{result: dto.Pagination[dto.CountryResponse]} "country response"
+// @Failure 400 {object} helper.BaseHttpResponse "failed"
+// @Failure 409 {object} helper.BaseHttpResponse "conflict"
+// @Router /v1/countries/get-by-filter [post]
+// @Security AuthBearer
+func (h *CountryHandler) GetCountriesByFilter(c *gin.Context) {
+	req := dto.PaginationResultWithFilter{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"))
+		return
+	}
+
+	result, err := h.service.GetCountriesByFilter(c, &req)
+	if err != nil {
+		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to get countries by filter"))
+		return
+	}
+
+	c.JSON(http.StatusOK, helper.GenerateBaseResponse(result, true, http.StatusOK, "Countries fetched successfully"))
 }
