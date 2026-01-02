@@ -52,7 +52,7 @@ func (s *CountryService) CreateCountry(ctx context.Context, req *dto.CreateUpdat
 
 // update
 
-func (s *CountryService) UpdateCountry(ctx context.Context, countryId uint, req *dto.CreateUpdateCountryRequest) (*dto.CountryResponse, error) {
+func (s *CountryService) UpdateCountry(ctx context.Context, countryId int, req *dto.CreateUpdateCountryRequest) (*dto.CountryResponse, error) {
 	// updatedMap := map[string]interface{}{
 	// 	"name":       req.Name,
 	// 	"updated_by": &sql.NullInt64{Int64: int64(ctx.Value(constants.UserIdKey).(float64)), Valid: true},
@@ -85,7 +85,7 @@ func (s *CountryService) UpdateCountry(ctx context.Context, countryId uint, req 
 	// dto := &dto.CountryResponse{Name: req.Name, Id: country.Id}
 	// return dto, nil
 
-	result, err := s.base.Update(ctx, int(countryId), req)
+	result, err := s.base.Update(ctx, countryId, req)
 	if err != nil {
 		return nil, err
 	}
@@ -94,7 +94,7 @@ func (s *CountryService) UpdateCountry(ctx context.Context, countryId uint, req 
 
 // delete
 
-func (s *CountryService) DeleteCountry(ctx context.Context, countryId uint) error {
+func (s *CountryService) DeleteCountry(ctx context.Context, id int) error {
 	// tx := s.dataBase.WithContext(ctx).Begin()
 	// deletedMap := map[string]interface{}{
 	// 	"deleted_by": &sql.NullInt64{Int64: int64(ctx.Value(constants.UserIdKey).(float64)), Valid: true},
@@ -112,7 +112,7 @@ func (s *CountryService) DeleteCountry(ctx context.Context, countryId uint) erro
 	// }
 	// tx.Commit()
 	// return nil
-	err := s.base.Delete(ctx, int(countryId))
+	err := s.base.Delete(ctx, id)
 	if err != nil {
 		return err
 	}
@@ -121,7 +121,7 @@ func (s *CountryService) DeleteCountry(ctx context.Context, countryId uint) erro
 
 // get by id
 
-func (s *CountryService) GetCountryById(ctx context.Context, countryId uint) (*dto.CountryResponse, error) {
+func (s *CountryService) GetCountryById(ctx context.Context, countryId int) (*dto.CountryResponse, error) {
 	// country := &models.Country{}
 	// err := s.dataBase.WithContext(ctx).
 	// 	Where("id = ? AND deleted_by IS NULL", countryId).
@@ -133,7 +133,7 @@ func (s *CountryService) GetCountryById(ctx context.Context, countryId uint) (*d
 	// }
 	// dto := &dto.CountryResponse{Name: country.Name, Id: country.Id}
 	// return dto, nil
-	result, err := s.base.GetByID(ctx, int(countryId))
+	result, err := s.base.GetByID(ctx, countryId)
 	if err != nil {
 		return nil, err
 	}

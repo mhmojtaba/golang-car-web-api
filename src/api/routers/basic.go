@@ -25,3 +25,13 @@ func City(r *gin.RouterGroup, cfg *config.Config) {
 	r.GET("/:cityId", handler.GetById)
 	r.POST("/get-by-filter", handler.GetByFilter)
 }
+
+func File(r *gin.RouterGroup, cfg *config.Config) {
+	handler := handlers.NewFileHandler(cfg)
+
+	r.POST("/", handler.Create)
+	r.PUT("/:fileId", handler.Update)
+	r.DELETE("/:fileId", handler.Delete)
+	r.GET("/:fileId", handler.GetById)
+	r.POST("/get-by-filter", handler.GetByFilter)
+}

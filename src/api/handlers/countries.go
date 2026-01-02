@@ -1,12 +1,7 @@
 package handlers
 
 import (
-	"net/http"
-	"strconv"
-
 	"github.com/gin-gonic/gin"
-	"github.com/mhmojtaba/golang-car-web-api/api/dto"
-	"github.com/mhmojtaba/golang-car-web-api/api/helper"
 	"github.com/mhmojtaba/golang-car-web-api/config"
 	"github.com/mhmojtaba/golang-car-web-api/services"
 )
@@ -35,19 +30,21 @@ func NewCountryHandler(cfg *config.Config) *CountryHandler {
 // @Router /v1/countries/ [post]
 // @Security AuthBearer
 func (h *CountryHandler) CreateCountry(c *gin.Context) {
-	req := dto.CreateUpdateCountryRequest{}
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"))
-		return
-	}
+	Create(c, h.service.CreateCountry)
 
-	result, err := h.service.CreateCountry(c, &req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to create country"))
-		return
-	}
+	// req := dto.CreateUpdateCountryRequest{}
+	// if err := c.ShouldBindJSON(&req); err != nil {
+	// 	c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"))
+	// 	return
+	// }
 
-	c.JSON(http.StatusCreated, helper.GenerateBaseResponse(result, true, http.StatusCreated, "Country created successfully"))
+	// result, err := h.service.CreateCountry(c, &req)
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to create country"))
+	// 	return
+	// }
+
+	// c.JSON(http.StatusCreated, helper.GenerateBaseResponse(result, true, http.StatusCreated, "Country created successfully"))
 }
 
 // updateCountry godoc
@@ -63,20 +60,21 @@ func (h *CountryHandler) CreateCountry(c *gin.Context) {
 // @Router /v1/countries/ [put]
 // @Security AuthBearer
 func (h *CountryHandler) UpdateCountry(c *gin.Context) {
-	countryId, _ := strconv.Atoi(c.Params.ByName("countryId"))
-	req := dto.CreateUpdateCountryRequest{}
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"))
-		return
-	}
+	Update(c, h.service.UpdateCountry)
+	// countryId, _ := strconv.Atoi(c.Params.ByName("countryId"))
+	// req := dto.CreateUpdateCountryRequest{}
+	// if err := c.ShouldBindJSON(&req); err != nil {
+	// 	c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"))
+	// 	return
+	// }
 
-	result, err := h.service.UpdateCountry(c, uint(countryId), &req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to update country"))
-		return
-	}
+	// result, err := h.service.UpdateCountry(c, uint(countryId), &req)
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to update country"))
+	// 	return
+	// }
 
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(result, true, http.StatusOK, "Country updated successfully"))
+	// c.JSON(http.StatusOK, helper.GenerateBaseResponse(result, true, http.StatusOK, "Country updated successfully"))
 }
 
 // deleteCountry godoc
@@ -92,20 +90,21 @@ func (h *CountryHandler) UpdateCountry(c *gin.Context) {
 // @Router /v1/countries/{id} [delete]
 // @Security AuthBearer
 func (h *CountryHandler) DeleteCountry(c *gin.Context) {
-	countryId, _ := strconv.Atoi(c.Params.ByName("countryId"))
+	Delete(c, h.service.DeleteCountry)
+	// countryId, _ := strconv.Atoi(c.Params.ByName("countryId"))
 
-	if countryId == 0 {
-		c.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponse(nil, false, http.StatusNotFound, "Country not found"))
-		return
-	}
+	// if countryId == 0 {
+	// 	c.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponse(nil, false, http.StatusNotFound, "Country not found"))
+	// 	return
+	// }
 
-	err := h.service.DeleteCountry(c, uint(countryId))
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to delete country"))
-		return
-	}
+	// err := h.service.DeleteCountry(c, uint(countryId))
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to delete country"))
+	// 	return
+	// }
 
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(nil, true, http.StatusOK, "Country deleted successfully"))
+	// c.JSON(http.StatusOK, helper.GenerateBaseResponse(nil, true, http.StatusOK, "Country deleted successfully"))
 }
 
 // getCountry godoc
@@ -121,20 +120,21 @@ func (h *CountryHandler) DeleteCountry(c *gin.Context) {
 // @Router /v1/countries/{id} [get]
 // @Security AuthBearer
 func (h *CountryHandler) GetCountry(c *gin.Context) {
-	countryId, _ := strconv.Atoi(c.Params.ByName("countryId"))
+	GetById(c, h.service.GetCountryById)
+	// countryId, _ := strconv.Atoi(c.Params.ByName("countryId"))
 
-	if countryId == 0 {
-		c.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponse(nil, false, http.StatusNotFound, "Country not found"))
-		return
-	}
+	// if countryId == 0 {
+	// 	c.AbortWithStatusJSON(http.StatusNotFound, helper.GenerateBaseResponse(nil, false, http.StatusNotFound, "Country not found"))
+	// 	return
+	// }
 
-	res, err := h.service.GetCountryById(c, uint(countryId))
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to find country"))
-		return
-	}
+	// res, err := h.service.GetCountryById(c, uint(countryId))
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to find country"))
+	// 	return
+	// }
 
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, http.StatusOK, "successfully"))
+	// c.JSON(http.StatusOK, helper.GenerateBaseResponse(res, true, http.StatusOK, "successfully"))
 }
 
 // getCountriesByFilter godoc
@@ -150,17 +150,18 @@ func (h *CountryHandler) GetCountry(c *gin.Context) {
 // @Router /v1/countries/get-by-filter [post]
 // @Security AuthBearer
 func (h *CountryHandler) GetCountriesByFilter(c *gin.Context) {
-	req := dto.PaginationResultWithFilter{}
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"))
-		return
-	}
+	GetByFilter(c, h.service.GetCountriesByFilter)
+	// req := dto.PaginationResultWithFilter{}
+	// if err := c.ShouldBindJSON(&req); err != nil {
+	// 	c.AbortWithStatusJSON(http.StatusBadRequest, helper.GenerateBaseResponseWithValidationError(nil, false, http.StatusBadRequest, err, "Invalid request"))
+	// 	return
+	// }
 
-	result, err := h.service.GetCountriesByFilter(c, &req)
-	if err != nil {
-		c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to get countries by filter"))
-		return
-	}
+	// result, err := h.service.GetCountriesByFilter(c, &req)
+	// if err != nil {
+	// 	c.AbortWithStatusJSON(helper.TranslateErrorToStatusCode(err), helper.GenerateBaseResponseWithError(nil, false, http.StatusInternalServerError, err, "Failed to get countries by filter"))
+	// 	return
+	// }
 
-	c.JSON(http.StatusOK, helper.GenerateBaseResponse(result, true, http.StatusOK, "Countries fetched successfully"))
+	// c.JSON(http.StatusOK, helper.GenerateBaseResponse(result, true, http.StatusOK, "Countries fetched successfully"))
 }

@@ -49,7 +49,7 @@ type CreateFileRequest struct {
 	Name        string `json:"name"`
 	Directory   string `json:"directory"`
 	Description string `json:"description"`
-	MimeType    string `json:"mimeType"`
+	MediaType   string `json:"mimeType"`
 }
 
 type UpdateFileRequest struct {
@@ -61,7 +61,7 @@ type FileResponse struct {
 	Name        string `json:"name"`
 	Directory   string `json:"directory"`
 	Description string `json:"description"`
-	MimeType    string `json:"mimeType"`
+	MediaType   string `json:"mimeType"`
 }
 
 type CreateCompanyRequest struct {

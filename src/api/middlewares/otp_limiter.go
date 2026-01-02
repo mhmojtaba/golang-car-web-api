@@ -18,7 +18,7 @@ func OtpLimiter(cfg *config.Config) gin.HandlerFunc {
 		ip := c.ClientIP()
 		limiter := limiter.GetLimiter(ip)
 		if !limiter.Allow() {
-			c.AbortWithStatusJSON(http.StatusTooManyRequests, helper.GenerateBaseResponseWithError(nil, false, int(helper.OtpLimiterError), errors.New("request not allowed"), "Too many requests, please try again later"))
+			c.AbortWithStatusJSON(http.StatusTooManyRequests, helper.GenerateBaseResponseWithError(nil, false, helper.OtpLimiterError, errors.New("request not allowed"), "Too many requests, please try again later"))
 			return
 		} else {
 			c.Next()

@@ -5,36 +5,36 @@ import "github.com/mhmojtaba/golang-car-web-api/api/validation"
 type BaseHttpResponse struct {
 	Result           any                           `json:"result"`
 	Success          bool                          `json:"success"`
-	ResultCode       int                           `json:"resultCode"`
+	ResultCode       ResultCode                    `json:"resultCode"`
 	ValidationErrors *[]validation.ValidationError `json:"validationErrors"`
 	Error            any                           `json:"Error"`
 	Message          string                        `json:"message"`
 }
 
-func GenerateBaseResponse(result any, success bool, code int, msg string) *BaseHttpResponse {
+func GenerateBaseResponse(result any, success bool, ResultCode ResultCode, msg string) *BaseHttpResponse {
 	return &BaseHttpResponse{
 		Result:     result,
 		Success:    success,
-		ResultCode: code,
+		ResultCode: ResultCode,
 		Message:    msg,
 	}
 }
 
-func GenerateBaseResponseWithError(result any, success bool, code int, err error, msg string) *BaseHttpResponse {
+func GenerateBaseResponseWithError(result any, success bool, ResultCode ResultCode, err error, msg string) *BaseHttpResponse {
 	return &BaseHttpResponse{
 		Result:     result,
 		Success:    success,
-		ResultCode: code,
+		ResultCode: ResultCode,
 		Error:      err.Error(),
 		Message:    msg,
 	}
 }
 
-func GenerateBaseResponseWithValidationError(result any, success bool, code int, err error, msg string) *BaseHttpResponse {
+func GenerateBaseResponseWithValidationError(result any, success bool, ResultCode ResultCode, err error, msg string) *BaseHttpResponse {
 	return &BaseHttpResponse{
 		Result:           result,
 		Success:          success,
-		ResultCode:       code,
+		ResultCode:       ResultCode,
 		ValidationErrors: validation.GetValidationErrors(err),
 		Message:          msg,
 	}
