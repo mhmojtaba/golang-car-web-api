@@ -118,13 +118,8 @@ func (s *BaseService[T, Tc, Tu, Tr]) GetAll(ctx context.Context) ([]Tr, error) {
 }
 
 func (s *BaseService[T, Tc, Tu, Tr]) GetByFilter(ctx context.Context, req *dto.PaginationResultWithFilter) (*dto.Pagination[Tr], error) {
-	res, err := Paginate[T, Tr](req, s.Preloads, s.database)
-	if err != nil {
-		metrics.DbCall.WithLabelValues(reflect.TypeOf(*new(T)).String(), "GetByFilter", "Failed").Inc()
-		return nil, err
-	}
-	metrics.DbCall.WithLabelValues(reflect.TypeOf(*new(T)).String(), "GetByFilter", "Success").Inc()
-	return res, nil
+	return Paginate[T, Tr](req, s.Preloads, s.database)
+
 }
 
 func NewPagedList[T any](items *[]T, count int64, pageNumber int, pageSize int64) *dto.Pagination[T] {
