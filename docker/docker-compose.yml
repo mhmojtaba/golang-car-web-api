@@ -200,6 +200,7 @@ services:
     networks:
       - webapi_network 
     restart: always
+    
   car-api1:
     build: ../src/
     image: car-api:latest
@@ -216,6 +217,7 @@ services:
       - postgres
       - elasticsearch
     restart: unless-stopped
+    
   car-api2:
     build: ../src/
     image: car-api:latest
